@@ -65,9 +65,10 @@ extern crate alloc;
 
 use alloc::vec::Vec;
 use core::convert::Infallible;
-use parity_scale_codec::{Decode, Encode, EncodeLike, Error, Input, Output};
+use parity_scale_codec::{ Decode, Encode, EncodeLike, Error, Input, Output};
 use serde::{Deserialize, Serialize};
 use serde_scale::{Bytes, Read, Write};
+use scale_info::TypeInfo;
 
 /// Wrapper for types serializable with `serde` to support serialization with `Encode`/`Decode`
 ///
@@ -76,7 +77,7 @@ use serde_scale::{Bytes, Read, Write};
 ///
 /// ⚠ The `Encode` implementation panics if the serializer returns an error (e.g. when attempting
 /// to serialize a floating point number) because `Encode` methods do not return `Result`.
-#[derive(Clone, Copy, Debug, Default, Deserialize, Eq, Hash, Ord, PartialEq, PartialOrd, Serialize)]
+#[derive(Clone, Copy, Debug, Default, Deserialize, TypeInfo, Eq, Hash, Ord, PartialEq, PartialOrd, Serialize)]
 pub struct Wrap<T>(pub T);
 
 impl<T: Serialize> Encode for Wrap<T> {
